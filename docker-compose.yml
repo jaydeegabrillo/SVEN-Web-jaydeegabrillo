@@ -9,6 +9,8 @@ services:
     container_name: sven-backend
     ports: ["8000:80"]
     depends_on: [mysql]
+    volumes:
+      - ./backend/laravel:/var/www/html/laravel
     working_dir: /var/www/html/laravel
     command: sh ./setup.sh
 
@@ -26,16 +28,20 @@ services:
       - mysql_data:/var/lib/mysql
 
   # React
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: sven-frontend
-  #   ports: ["30050:3000"]
-  #   stdin_open: true
-  #   tty: true
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true   # fixes Windows file‑watching
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react-app
+    ports:
+      - "30050:3000"
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: sh -c "npm install && npm start"
 
 volumes:
   mysql_data:

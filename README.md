@@ -99,11 +99,15 @@ composer install
 php artisan key:generate
 
 ## Migration 
-docker exec -it laravel-app bash
+docker exec -it sven-backend bash
 cd laravel
 php artisan migrate
 
 ## frontend
+cd frontend
+npx create-react-app
+npm init
+npm i
 docker exec -it react-app bash
 npm install axios
 

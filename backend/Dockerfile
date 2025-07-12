@@ -15,7 +15,7 @@ RUN sed -ri "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" \
         /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf
 
 # ── 3. Set working dir & install Composer ─────────────────────────────────────
-WORKDIR /var/www/html/laravel
+WORKDIR /var/www/html
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # ── 4. Copy source and fix permissions ────────────────────────────────────────
@@ -23,7 +23,6 @@ COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
 # ── 5. Run script for installations and migrations (Skip if done) ──────────────
-COPY laravel /var/www/html/laravel
 COPY laravel/setup.sh /var/www/html/laravel/setup.sh
 RUN chmod +x /var/www/html/laravel/setup.sh
 
