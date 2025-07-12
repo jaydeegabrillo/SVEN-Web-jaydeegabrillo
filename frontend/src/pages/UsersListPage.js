@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
 import DataTable from 'react-data-table-component';
 
 function UsersListPage() {
@@ -11,8 +10,14 @@ function UsersListPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/users');
-        setUsers(response.data);
+        const baseUrl = process.env.REACT_APP_API_BASE_URL || '';
+        const response = await fetch(`${baseUrl}/api/users`);
+
+        if (!response.ok) throw new Error('Failed to fetch users');
+
+        const data = await response.json();
+
+        setUsers(data);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching users:', err);
@@ -55,21 +60,54 @@ function UsersListPage() {
   );
 
   const customStyles = {
+    table: {
+      style: {
+        borderRadius: '16px',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
+        background: '#f7f7f7',
+        margin: '40px auto',
+        width: '90%',
+        overflow: 'hidden',
+      },
+    },
+    headRow: {
+      style: {
+        backgroundColor: '#bfc7d1',
+        borderTopLeftRadius: '16px',
+        borderTopRightRadius: '16px',
+        fontWeight: 'bold',
+        fontSize: '15px',
+        color: '#6b7280',
+        borderBottom: 'none',
+      },
+    },
     headCells: {
       style: {
+        backgroundColor: 'transparent',
         fontWeight: 'bold',
-        fontSize: '14px',
-        backgroundColor: '#e0e0e0',
+        fontSize: '15px',
+        color: '#6b7280',
+        borderBottom: 'none',
+      },
+    },
+    rows: {
+      style: {
+        fontSize: '16px',
+        backgroundColor: '#fff',
+        borderBottom: 'none',
+        minHeight: '56px',
+        transition: 'background 0.2s',
+      },
+      stripedStyle: {
+        backgroundColor: '#f3f4f6',
       },
     },
     cells: {
       style: {
-        fontSize: '13px',
-      },
-    },
-    rows: {
-      highlightOnHover: {
-        backgroundColor: '#f0f0f0',
+        fontSize: '16px',
+        color: '#222',
+        borderBottom: 'none',
+        padding: '18px 12px',
       },
     },
   };
@@ -119,9 +157,9 @@ function UsersListPage() {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        background: '#bfd3b7',
+        background: '#f7f7f7',
         padding: '40px 0',
       }}
     >
@@ -141,7 +179,7 @@ function UsersListPage() {
         }}
       />
 
-      <div style={{ width: '95%', background: '#97a791', borderRadius: '12px', boxShadow: '0 2px 12px rgba(79,70,229,0.08)', padding: '24px' }}>
+      <div style={{ width: '100%', maxWidth: '900px', margin: '0 auto', padding: '0' }}>
         <DataTable
           columns={columns}
           data={filteredItems}
@@ -151,6 +189,7 @@ function UsersListPage() {
           customStyles={customStyles}
           noDataComponent="No users found."
           progressPending={loading}
+          striped
         />
       </div>
     </div>

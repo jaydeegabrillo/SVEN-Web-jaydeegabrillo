@@ -79,6 +79,17 @@ class AppointmentController extends Controller
      */
     public function create(Request $request)
     {
+       //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'dog_name' => 'required|string|max:255',
             'frequency' => 'required|in:One time,Recurring',
@@ -93,23 +104,22 @@ class AppointmentController extends Controller
             $validated['days'] = json_encode($validated['days']);
         }
 
+        if (isset($validated['appointment_date'])) {
+            $validated['appointment_date'] = date('Y-m-d H:i:s', strtotime($validated['appointment_date']));
+        }
+
         $appointment = Appointment::create($validated);
+
+        if (!$appointment) {
+            return response()->json([
+                'message' => 'Failed to create appointment.'
+            ], 500);
+        }
 
         return response()->json([
             'message' => 'Appointment created successfully.',
             'data' => $appointment
         ], 201);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**

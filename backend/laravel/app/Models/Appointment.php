@@ -11,7 +11,11 @@ class Appointment extends Model
 
     // App\Models\Appointment.php
     protected $fillable = [
-        'patient_name',
+        'dog_name',
+        'frequency',
+        'days',
+        'time',
+        'notes',
         'appointment_date',
     ];
 }

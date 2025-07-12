@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
-import UsersListPage from './pages/UsersListPage'; // Import the new component
+import UsersListPage from './pages/UsersListPage';
+import AppointmentsListPage from './pages/AppointmentsListPage'; 
 
 function AppContent() {
   const location = useLocation();
@@ -10,10 +11,11 @@ function AppContent() {
   return (
     <>
       {location.pathname !== '/' && <Navbar />}
-      <div style={{ padding: '20px' }}>
+      <div>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/users" element={<UsersListPage />} />
+          <Route path="/appointments" element={<AppointmentsListPage />} />
           <Route path="*" element={<h2>404 - Page Not Found</h2>} />
         </Routes>
       </div>

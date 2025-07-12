@@ -28,3 +28,6 @@ Route::get('/users', [App\Http\Controllers\UserController::class, 'index'])
 Route::get('/ping', function () {
     return response()->json(['pong' => "haw"]);
 });
+
+
+Route::apiResource('appointments', App\Http\Controllers\AppointmentController::class);

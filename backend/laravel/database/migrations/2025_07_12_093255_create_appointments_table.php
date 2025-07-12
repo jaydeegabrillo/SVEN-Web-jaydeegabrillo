@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('days')->nullable();
             $table->enum('time', ['Morning', 'Afternoon', 'Evening']);
             $table->text('notes')->nullable();
-            $table->dateTime('appointment_date')->nullable();
+            $table->dateTime('appointment_date');
             $table->timestamps();
         });
     }
