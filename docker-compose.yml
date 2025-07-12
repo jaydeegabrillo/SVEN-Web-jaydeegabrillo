@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  # Laravel + Apache
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    ports: ["8000:80"]
+    volumes:
+      - ./backend:/var/www
+    depends_on: [mysql]
+
+  # MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: secret
+    ports: ["3306:3306"]
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react-app
+    ports: ["3000:3000"]
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true   # fixes Windows file‑watching
+
+volumes:
+  mysql_data:
