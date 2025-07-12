@@ -73,8 +73,9 @@ npm run dev
 ### Backend
 
 ```sh
-cd backend/laravel
-php artisan test
+docker exec -it sven-backend bash
+composer require darkaonline/l5-swagger
+php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
 ```
 
 ### Frontend
@@ -89,6 +90,29 @@ npm test
 - Update the `.env` files with your database and service credentials.
 - For more advanced configuration, see the documentation in each subdirectory.
 
----
+```sh
+docker compose build
 
-Feel free to expand this README with more details about your application, usage, and deployment!
+## backend
+cd backend/laravel
+composer install
+php artisan key:generate
+
+## Migration 
+docker exec -it laravel-app bash
+cd laravel
+php artisan migrate
+
+## frontend
+docker exec -it react-app bash
+npm install axios
+
+
+## DB MySQL 
+Host: 127.0.0.1
+Port: 3310
+User: root
+Password: root
+Database: boilerplay
+
+```

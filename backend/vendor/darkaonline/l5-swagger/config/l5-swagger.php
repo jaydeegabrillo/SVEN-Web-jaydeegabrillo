@@ -40,6 +40,8 @@ return [
                  */
                 'format_to_use_for_docs' => env('L5_FORMAT_TO_USE_FOR_DOCS', 'json'),
 
+                'docs' => 'api/documentation',
+
                 /*
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
@@ -54,7 +56,7 @@ return [
             /*
              * Route for accessing parsed swagger annotations.
              */
-            'docs' => 'docs',
+            'docs' => 'api/documentation',
 
             /*
              * Route for Oauth2 authentication callback.

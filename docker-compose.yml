@@ -6,11 +6,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: laravel-app
+    container_name: sven-backend
     ports: ["8000:80"]
-    volumes:
-      - ./backend:/var/www
     depends_on: [mysql]
+    working_dir: /var/www/html/laravel
+    command: sh ./setup.sh
 
   # MySQL
   mysql:
@@ -18,26 +18,24 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: app_user
-      MYSQL_PASSWORD: secret
-    ports: ["3306:3306"]
+      MYSQL_DATABASE: boilerplay
+      MYSQL_PASSWORD: root
+    ports: 
+      - "3310:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
   # React
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: react-app
-    ports: ["3000:3000"]
-    volumes:
-      - ./frontend:/app
-    stdin_open: true
-    tty: true
-    environment:
-      - CHOKIDAR_USEPOLLING=true   # fixes Windows file‑watching
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: sven-frontend
+  #   ports: ["30050:3000"]
+  #   stdin_open: true
+  #   tty: true
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true   # fixes Windows file‑watching
 
 volumes:
   mysql_data:
