@@ -37,7 +37,7 @@ function AboutSection({ handleScheduleClick, showSection2 }) {
       <div className="w-full lg:w-1/2 grid grid-cols-2 grid-rows-2 gap-2 justify-items-stretch items-stretch">
         <div className="relative w-full h-full flex group">
           <img src="/images/meow.png" alt="Ms. Meow"
-            className="w-full h-[18rem] object-cover rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
+            className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
             onMouseEnter={() => playSound(meowRef)}
             onMouseLeave={() => { if (meowRef.current) { meowRef.current.pause(); meowRef.current.currentTime = 0; } }}
           />
@@ -46,7 +46,7 @@ function AboutSection({ handleScheduleClick, showSection2 }) {
         </div>
         <div className="relative w-full h-full flex group">
           <img src="/images/parrot.jpeg" alt="Peppy"
-            className="w-full h-[18rem] object-cover rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
+            className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
             onMouseEnter={() => playSound(cawRef)}
             onMouseLeave={() => { if (cawRef.current) { cawRef.current.pause(); cawRef.current.currentTime = 0; } }}
           />
@@ -55,7 +55,7 @@ function AboutSection({ handleScheduleClick, showSection2 }) {
         </div>
         <div className="relative w-full h-full flex group">
           <img src="/images/doogdle.jpeg" alt="Mister Dog"
-            className="w-full h-[18rem] object-cover rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
+            className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
             onMouseEnter={() => playSound(barkRef)}
             onMouseLeave={() => { if (barkRef.current) { barkRef.current.pause(); barkRef.current.currentTime = 0; } }}
           />
@@ -64,7 +64,7 @@ function AboutSection({ handleScheduleClick, showSection2 }) {
         </div>
         <div className="relative w-full h-full flex group">
           <img src="/images/hamster.jpeg" alt="Mr. Bun"
-            className="w-full h-[18rem] object-cover rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
+            className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
             onMouseEnter={() => playSound(squeakRef)}
             onMouseLeave={() => { if (squeakRef.current) { squeakRef.current.pause(); squeakRef.current.currentTime = 0; } }}
           />
