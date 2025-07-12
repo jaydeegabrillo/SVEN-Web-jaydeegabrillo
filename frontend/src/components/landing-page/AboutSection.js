@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 function AboutSection({ handleScheduleClick, showSection2 }) {
   // Refs for each sound
@@ -7,11 +7,45 @@ function AboutSection({ handleScheduleClick, showSection2 }) {
   const barkRef = useRef(null);
   const squeakRef = useRef(null);
 
+  // Track if user has interacted
+  const [userInteracted, setUserInteracted] = useState(false);
+  // Track if any audio is playing
+  const [audioPlaying, setAudioPlaying] = useState(false);
+
+  useEffect(() => {
+    const onInteract = () => setUserInteracted(true);
+    window.addEventListener('mousedown', onInteract, { once: true });
+    window.addEventListener('touchstart', onInteract, { once: true });
+    return () => {
+      window.removeEventListener('mousedown', onInteract);
+      window.removeEventListener('touchstart', onInteract);
+    };
+  }, []);
+
+  // Attach ended listeners to all audio refs
+  useEffect(() => {
+    const audios = [meowRef, cawRef, barkRef, squeakRef];
+    const handleEnded = () => setAudioPlaying(false);
+    audios.forEach(ref => {
+      if (ref.current) {
+        ref.current.addEventListener('ended', handleEnded);
+      }
+    });
+    return () => {
+      audios.forEach(ref => {
+        if (ref.current) {
+          ref.current.removeEventListener('ended', handleEnded);
+        }
+      });
+    };
+  }, []);
+
   // Play sound helper
   const playSound = (ref) => {
-    if (ref.current) {
+    if (userInteracted && ref.current) {
+      setAudioPlaying(true);
       ref.current.currentTime = 0;
-      ref.current.play();
+      ref.current.play().catch(() => {});
     }
   };
 
@@ -35,41 +69,49 @@ function AboutSection({ handleScheduleClick, showSection2 }) {
         </button>
       </div>
       <div className="w-full lg:w-1/2 grid grid-cols-2 grid-rows-2 gap-2 justify-items-stretch items-stretch">
+        {/* Ms. Meow */}
         <div className="relative w-full h-full flex group">
           <img src="/images/meow.png" alt="Ms. Meow"
             className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
-            onMouseEnter={() => playSound(meowRef)}
+            onClick={() => playSound(meowRef)}
             onMouseLeave={() => { if (meowRef.current) { meowRef.current.pause(); meowRef.current.currentTime = 0; } }}
           />
           <audio ref={meowRef} src="/sounds/meow.mp3" preload="auto" />
           <span className="absolute bottom-2 left-2 text-white text-sm bg-black bg-opacity-40 px-2 py-1 rounded">Ms. Meow</span>
+          <span className="absolute top-2 right-2 text-xs bg-yellow-400 bg-opacity-90 text-black px-2 py-1 rounded shadow-lg animate-bounce pointer-events-none">Click me!</span>
         </div>
+        {/* Peppy */}
         <div className="relative w-full h-full flex group">
           <img src="/images/parrot.jpeg" alt="Peppy"
             className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
-            onMouseEnter={() => playSound(cawRef)}
+            onClick={() => playSound(cawRef)}
             onMouseLeave={() => { if (cawRef.current) { cawRef.current.pause(); cawRef.current.currentTime = 0; } }}
           />
           <audio ref={cawRef} src="/sounds/caw.mp3" preload="auto" />
           <span className="absolute bottom-2 left-2 text-white text-sm bg-black bg-opacity-40 px-2 py-1 rounded">Peppy</span>
+          <span className="absolute top-2 right-2 text-xs bg-yellow-400 bg-opacity-90 text-black px-2 py-1 rounded shadow-lg animate-bounce pointer-events-none">Click me!</span>
         </div>
+        {/* Mister Dog */}
         <div className="relative w-full h-full flex group">
           <img src="/images/doogdle.jpeg" alt="Mister Dog"
             className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
-            onMouseEnter={() => playSound(barkRef)}
+            onClick={() => playSound(barkRef)}
             onMouseLeave={() => { if (barkRef.current) { barkRef.current.pause(); barkRef.current.currentTime = 0; } }}
           />
           <audio ref={barkRef} src="/sounds/bark.mp3" preload="auto" />
           <span className="absolute bottom-2 left-2 text-white text-sm bg-black bg-opacity-40 px-2 py-1 rounded">Mister Dog</span>
+          <span className="absolute top-2 right-2 text-xs bg-yellow-400 bg-opacity-90 text-black px-2 py-1 rounded shadow-lg animate-bounce pointer-events-none">Click me!</span>
         </div>
+        {/* Mr. Bun */}
         <div className="relative w-full h-full flex group">
           <img src="/images/hamster.jpeg" alt="Mr. Bun"
             className="w-full h-[18rem] object-contain rounded-xl shadow-md transition-transform duration-[2000ms] ease-in-out group-hover:scale-110"
-            onMouseEnter={() => playSound(squeakRef)}
+            onClick={() => playSound(squeakRef)}
             onMouseLeave={() => { if (squeakRef.current) { squeakRef.current.pause(); squeakRef.current.currentTime = 0; } }}
           />
           <audio ref={squeakRef} src="/sounds/squeak.mp3" preload="auto" />
           <span className="absolute bottom-2 left-2 text-white text-sm bg-black bg-opacity-40 px-2 py-1 rounded">Mr. Bun</span>
+          <span className="absolute top-2 right-2 text-xs bg-yellow-400 bg-opacity-90 text-black px-2 py-1 rounded shadow-lg animate-bounce pointer-events-none">Click me!</span>
         </div>
       </div>
     </section>
