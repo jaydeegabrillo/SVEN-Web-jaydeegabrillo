@@ -1,0 +1,184 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Your API Title",
+        "description": "Your API Description",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/appointments": {
+            "get": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Get list of appointments",
+                "operationId": "09fd012ab97514481bde57bbeac2699b",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Appointments"
+                ],
+                "summary": "Create a new appointment",
+                "operationId": "c4e0c4cd53840541c274c1cf1b5d4fbd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "dog_name",
+                                    "frequency",
+                                    "time",
+                                    "appointment_date"
+                                ],
+                                "properties": {
+                                    "dog_name": {
+                                        "type": "string",
+                                        "example": "Buddy"
+                                    },
+                                    "frequency": {
+                                        "type": "string",
+                                        "enum": [
+                                            "One time",
+                                            "Recurring"
+                                        ],
+                                        "example": "One time"
+                                    },
+                                    "days": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "Mon",
+                                            "Wed",
+                                            "Fri"
+                                        ]
+                                    },
+                                    "time": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Morning",
+                                            "Afternoon",
+                                            "Evening"
+                                        ],
+                                        "example": "Morning"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Needs gentle handling"
+                                    },
+                                    "appointment_date": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2025-07-12T10:00:00Z"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Appointment created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Appointment created successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "dog_name": {
+                                                    "type": "string",
+                                                    "example": "Buddy"
+                                                },
+                                                "frequency": {
+                                                    "type": "string",
+                                                    "example": "One time"
+                                                },
+                                                "days": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    },
+                                                    "example": [
+                                                        "Mon",
+                                                        "Wed",
+                                                        "Fri"
+                                                    ]
+                                                },
+                                                "time": {
+                                                    "type": "string",
+                                                    "example": "Morning"
+                                                },
+                                                "notes": {
+                                                    "type": "string",
+                                                    "example": "Needs gentle handling"
+                                                },
+                                                "appointment_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2025-07-12T10:00:00Z"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "operationId": "c457726701591d1183b53aa71fc13441",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Appointments",
+            "description": "API Endpoints for Appointments"
+        },
+        {
+            "name": "Users",
+            "description": "API Endpoints for Users"
+        }
+    ]
+}

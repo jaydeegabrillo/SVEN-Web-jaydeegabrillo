@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->string('dog_name');
+            $table->enum('frequency', ['One time', 'Recurring']);
+            $table->json('days')->nullable();
+            $table->enum('time', ['Morning', 'Afternoon', 'Evening']);
+            $table->text('notes')->nullable();
+            $table->dateTime('appointment_date')->nullable();
             $table->timestamps();
         });
     }

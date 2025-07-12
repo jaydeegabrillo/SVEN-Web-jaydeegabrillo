@@ -50,8 +50,8 @@ function UsersListPage() {
   ], []);
 
   const filteredItems = users.filter(item =>
-    item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) ||
-    item.email && item.email.toLowerCase().includes(filterText.toLowerCase()),
+    (item.name && item.name.toLowerCase().includes(filterText.toLowerCase())) ||
+    (item.email && item.email.toLowerCase().includes(filterText.toLowerCase())),
   );
 
   const customStyles = {
@@ -68,42 +68,91 @@ function UsersListPage() {
       },
     },
     rows: {
-        highlightOnHover: {
-            backgroundColor: '#f0f0f0',
-        },
+      highlightOnHover: {
+        backgroundColor: '#f0f0f0',
+      },
     },
   };
 
   if (loading) {
-    return <div>Loading users...</div>;
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)',
+        }}
+      >
+        <h1 style={{ fontSize: '2rem', color: '#4f46e5', marginBottom: '1rem' }}>
+          Loading users...
+        </h1>
+      </div>
+    );
   }
 
   if (error) {
-    return <div style={{ color: 'red' }}>Error: {error}</div>;
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          background: 'linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%)',
+        }}
+      >
+        <h1 style={{ fontSize: '2rem', color: '#ef4444', marginBottom: '1rem' }}>
+          Error
+        </h1>
+        <div style={{ color: '#ef4444', fontSize: '1.2rem' }}>{error}</div>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>Users List</h1>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: '#bfd3b7',
+        padding: '40px 0',
+      }}
+    >
 
       <input
         type="text"
         placeholder="Search users..."
         value={filterText}
         onChange={(e) => setFilterText(e.target.value)}
-        style={{ marginBottom: '15px', padding: '8px', width: '300px', borderRadius: '4px', border: '1px solid #ccc' }}
+        style={{
+          marginBottom: '20px',
+          padding: '10px',
+          width: '320px',
+          borderRadius: '6px',
+          border: '1px solid #abdf95',
+          fontSize: '1rem',
+        }}
       />
 
-      <DataTable
-        columns={columns}
-        data={filteredItems}
-        pagination
-        highlightOnHover
-        pointerOnHover
-        customStyles={customStyles}
-        noDataComponent="No users found."
-        progressPending={loading}
-      />
+      <div style={{ width: '95%', background: '#97a791', borderRadius: '12px', boxShadow: '0 2px 12px rgba(79,70,229,0.08)', padding: '24px' }}>
+        <DataTable
+          columns={columns}
+          data={filteredItems}
+          pagination
+          highlightOnHover
+          pointerOnHover
+          customStyles={customStyles}
+          noDataComponent="No users found."
+          progressPending={loading}
+        />
+      </div>
     </div>
   );
 }
