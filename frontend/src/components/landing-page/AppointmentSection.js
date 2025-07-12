@@ -176,8 +176,16 @@ function AppointmentSection({ showSection3, handleScrollToTop }) {
               {loading ? 'Scheduling...' : 'Schedule Service'}
             </button>
 
-            {error && <div className="text-red-500 text-center mt-2">{error}</div>}
-            {success && <div className="text-green-600 text-center mt-2">{success}</div>}
+            {error && (
+              <div className="mt-4 p-4 bg-red-500 text-white rounded-lg text-center font-medium">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="mt-4 p-4 bg-green-500 text-white rounded-lg text-center font-medium">
+                {success}
+              </div>
+            )}
           </form>
         </div>
       </div>
