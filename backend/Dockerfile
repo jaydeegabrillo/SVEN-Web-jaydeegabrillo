@@ -4,6 +4,7 @@ FROM php:8.2-apache
 # ── 1. System & PHP extensions ────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y \
       git curl zip unzip libzip-dev libpng-dev libonig-dev libxml2-dev \
+      dos2unix bash \
   && docker-php-ext-install pdo pdo_mysql zip
 
 # ── 2. Enable Apache + point it at /var/www/public (Laravel web root) ─────────
