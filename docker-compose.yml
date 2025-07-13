@@ -9,8 +9,6 @@ services:
     container_name: sven-backend
     ports: ["8000:80"]
     depends_on: [mysql]
-    volumes:
-      - ./backend/laravel:/var/www/html/laravel
     working_dir: /var/www/html/laravel
     command: bash -c "chmod +x ./setup.sh && dos2unix ./setup.sh && ./setup.sh"
 
