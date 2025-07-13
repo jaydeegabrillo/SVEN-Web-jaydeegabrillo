@@ -23,25 +23,16 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
-# ── 5. Setup environment file ─────────────────────────────────────────────────
-WORKDIR /var/www/html/laravel
-RUN if [ -f .env.example ] && [ ! -f .env ]; then \
-      cp .env.example .env && \
-      echo "Created .env file from example"; \
-    elif [ ! -f .env ]; then \
-      echo "WARNING: No .env.example found"; \
-      touch .env && \
-      echo "APP_KEY=" >> .env && \
-      echo "DB_CONNECTION=mysql" >> .env && \
-      echo "DB_HOST=mysql" >> .env && \
-      echo "DB_PORT=3306" >> .env && \
-      echo "DB_DATABASE=sven" >> .env && \
-      echo "DB_USERNAME=root" >> .env && \
-      echo "DB_PASSWORD=root" >> .env; \
-    fi
-
-# ── 6. Run script for installations and migrations (Skip if done) ──────────────
+# ── 5. Run script for installations and migrations (Skip if done) ──────────────
 COPY laravel/setup.sh /var/www/html/laravel/setup.sh
 RUN chmod +x /var/www/html/laravel/setup.sh
 
 EXPOSE 80
+
+# Add entrypoint script to handle runtime environment setup
+RUN echo '#!/bin/bash\nset -e\n\n# Setup environment file at runtime\nif [ ! -f /var/www/html/laravel/.env ]; then\n  if [ -f /var/www/html/laravel/.env.example ]; then\n    cp /var/www/html/laravel/.env.example /var/www/html/laravel/.env\n    echo "Created .env file from example (at runtime)"\n  else\n    echo "WARNING: No .env.example found at runtime"\n    touch /var/www/html/laravel/.env\n    echo "APP_KEY=" >> /var/www/html/laravel/.env\n    echo "DB_CONNECTION=mysql" >> /var/www/html/laravel/.env\n    echo "DB_HOST=mysql" >> /var/www/html/laravel/.env\n    echo "DB_PORT=3306" >> /var/www/html/laravel/.env\n    echo "DB_DATABASE=sven" >> /var/www/html/laravel/.env\n    echo "DB_USERNAME=root" >> /var/www/html/laravel/.env\n    echo "DB_PASSWORD=root" >> /var/www/html/laravel/.env\n  fi\nfi\n\nexec "$@"' > /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["/var/www/html/laravel/setup.sh"]
