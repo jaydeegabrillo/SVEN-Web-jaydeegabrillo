@@ -12,7 +12,7 @@ services:
     volumes:
       - ./backend/laravel:/var/www/html/laravel
     working_dir: /var/www/html/laravel
-    command: sh ./setup.sh
+    command: bash -c "chmod +x ./setup.sh && dos2unix ./setup.sh && ./setup.sh"
 
   # MySQL
   mysql:
