@@ -27,7 +27,22 @@ git clone https://github.com/jaydeegabrillo/SVEN-Web-jaydeegabrillo.git
 cd SVEN-Web-jaydeegabrillo
 ```
 
-### Edit the `.env` files as needed for your environment.
+### Edit `.env` files as needed
+
+### 1.1 Copy backend `.env.example` to `.env`
+
+```sh
+cd backend/laravel
+cp .env.example .env
+```
+
+### 1.2 Copy frontend `.env.example` to `.env`
+
+```sh
+cd frontend
+cp .env.example .env
+```
+
 
 ### 2. Build and Start with Docker
 
