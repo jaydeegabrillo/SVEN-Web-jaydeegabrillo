@@ -69,6 +69,6 @@ Host: 127.0.0.1
 Port: 3310
 User: root
 Password: root
-Database: boilerplay
+Database: sven
 
 ```

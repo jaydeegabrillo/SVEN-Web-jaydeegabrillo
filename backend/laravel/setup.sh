@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # Display what we're doing
@@ -11,9 +11,25 @@ if [ ! -f .setup-complete ]; then
   # Install dependencies
   composer install
   
-  # Generate key and run migrations
-  php artisan key:generate
-  php artisan migrate
+  # Generate key
+  php artisan key:generate --force
+  
+  # Try migrations with retry logic
+  echo "Running database migrations..."
+  max_retries=5
+  retry_count=0
+  
+  until php artisan migrate --force || [ $retry_count -ge $max_retries ]; do
+    retry_count=$((retry_count+1))
+    echo "Migration attempt $retry_count of $max_retries failed. Retrying in 5 seconds..."
+    sleep 5
+  done
+  
+  if [ $retry_count -ge $max_retries ]; then
+    echo "Migration failed after $max_retries attempts. Continuing anyway..."
+  else
+    echo "Migrations completed successfully!"
+  fi
   
   # Install and configure Swagger
   composer require darkaonline/l5-swagger
@@ -39,4 +55,4 @@ fi
 
 # Always run apache at the end
 echo "Starting Apache..."
-exec /usr/local/bin/apache2-foreground
+exec apache2-foreground
