@@ -18,7 +18,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: boilerplay
+      MYSQL_DATABASE: sven
       MYSQL_PASSWORD: root
     ports: 
       - "3310:3306"

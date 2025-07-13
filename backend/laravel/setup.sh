@@ -8,15 +8,6 @@ echo "Starting Laravel setup script..."
 if [ ! -f .setup-complete ]; then
   echo "Running Laravel setup..."
 
-  # Create .env file if it doesn't exist
-  if [ ! -f .env ]; then
-    echo "Creating .env file from example..."
-    cp .env.example .env
-  else
-    echo ".env file already exists"
-  fi
-
-
   # Install dependencies
   composer install
   

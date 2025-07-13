@@ -23,10 +23,25 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
-# ── 5. Run script for installations and migrations (Skip if done) ──────────────
+# ── 5. Setup environment file ─────────────────────────────────────────────────
+WORKDIR /var/www/html/laravel
+RUN if [ -f .env.example ] && [ ! -f .env ]; then \
+      cp .env.example .env && \
+      echo "Created .env file from example"; \
+    elif [ ! -f .env ]; then \
+      echo "WARNING: No .env.example found"; \
+      touch .env && \
+      echo "APP_KEY=" >> .env && \
+      echo "DB_CONNECTION=mysql" >> .env && \
+      echo "DB_HOST=mysql" >> .env && \
+      echo "DB_PORT=3306" >> .env && \
+      echo "DB_DATABASE=sven" >> .env && \
+      echo "DB_USERNAME=root" >> .env && \
+      echo "DB_PASSWORD=root" >> .env; \
+    fi
+
+# ── 6. Run script for installations and migrations (Skip if done) ──────────────
 COPY laravel/setup.sh /var/www/html/laravel/setup.sh
 RUN chmod +x /var/www/html/laravel/setup.sh
-
-
 
 EXPOSE 80
