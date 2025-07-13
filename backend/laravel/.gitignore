@@ -1,3 +1,4 @@
+# Laravel Standard Ignore Files
 /node_modules
 /public/build
 /public/hot
@@ -16,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Setup completion marker
+.setup-complete
